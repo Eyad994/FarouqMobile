@@ -15,3 +15,6 @@ Route::group([
     Route::post('me', 'AuthController@me');
 
 });
+
+
+Route::get('/card/{id}', 'CardController@getCard');
