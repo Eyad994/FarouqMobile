@@ -8,9 +8,44 @@ use Illuminate\Http\Request;
 
 class CardController extends Controller
 {
-    public function getCard($id)
+
+    public function getCards()
     {
-        try
+
+       $cards = Card::where('id', '>=', 1)->take(4)->get();
+        foreach ($cards as $card)
+        {
+           $arr['response'][] =[ 'card_id' => $card->id,
+            'content' => $card->content,
+            'content_description' => $card->content_description,
+            'is_favorite' => $card->is_favorite == 0 ? false : true,
+            'category' => [
+            'id' => $card->category->id,
+            'name' => $card->category->name
+        ],
+            'type' => [
+            'id' => $card->type->id,
+            'name' => $card->type->name,
+        ],
+            'header' => [
+            'text_en' => $card->header_en,
+            'text_ar' => $card->header_ar
+        ],
+            'footer' => [
+            'text_en' => $card->footer_en,
+            'text_ar' => $card->footer_ar
+        ],
+            'background_color' => [
+            'background_color' => $card->background_color,
+            'dark_background_color' => $card->dark_background_color
+        ],
+               ];
+
+        }
+
+        return response()->json($arr);
+
+        /*try
         {
             $card = Card::findOrFail($id);
         }
@@ -18,8 +53,7 @@ class CardController extends Controller
         catch(ModelNotFoundException $e) {
             return response()->json([
                 'message' => 'Card not found',
-                'status' => 404
-            ]);
+            ], 404);
         }
 
         return response()->json([
@@ -47,7 +81,7 @@ class CardController extends Controller
                 'background_color' => $card->background_color,
                 'dark_background_color' => $card->dark_background_color
             ],
-        ], 200);
+        ], 200);*/
 
         /*Card::create([
            'content' => 'text content',

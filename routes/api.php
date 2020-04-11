@@ -17,4 +17,4 @@ Route::group([
 });
 
 
-Route::get('/card/{id}', 'CardController@getCard');
+Route::get('/cards', 'CardController@getCards');
